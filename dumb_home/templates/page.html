@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% block nav %}
+<ul>
+	{% for item in nav %}
+	<li><a href={{ item.path }}>{{ item.name }}</a></li>
+	{% endfor %}
+</ul>
+{% endblock %}
+
+{% block content %}
+{{ content | safe }}
+{% endblock %}

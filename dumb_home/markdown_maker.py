@@ -7,13 +7,19 @@ import markdown
 from dumb_home.base_maker import BaseMaker
 
 
+EXTENSIONS = [
+    "extra",
+    "markdown_checklist.extension",
+]
+
+
 class MarkdownMaker(BaseMaker):
     """
     Class to create Markdown files from text input
     """
     @classmethod
     def _make_body(cls, text: str) -> str:
-        result = markdown.markdown(text)
+        result = markdown.markdown(text, extensions=EXTENSIONS)
         return result
 
     @classmethod
