@@ -1,0 +1,2 @@
+graft dumb_home/templates
+graft dumb_home/static

@@ -7,7 +7,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from urllib.parse import quote, unquote
 
-from flask import Flask, current_app, render_template
+from flask import Flask, current_app, render_template, send_from_directory
 from typing_extensions import Self
 
 from dumb_home.markdown_maker import MarkdownMaker
@@ -49,7 +49,8 @@ def index(path: str = None):
         elif extension in (".yaml", ".yml"):
             content = YamlMaker.make_page(cur_file.read())
         else:
-            return f"Unsupported file type: {extension}", 400
+            #   Just return the file
+            return send_from_directory(base_path, path)
 
     nav = Nav.from_path(path=cur_path, base_path=base_path)
 

@@ -3,16 +3,18 @@ requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "package_name"
+name = "dumb_home"
 version = "0.1.0"
-description = "Package description"
+description = "Simple static website renderer for static folders with Markdown and Yaml data support"
 readme = "README.md"
-requires-python = ">=3.9"
-license = {text = "INDEAVR"}
+requires-python = ">=3.10"
+license = {text = "MIT"}
 authors = [
-	{name = "author name", email = "author_email@example.com"},
+	{name = "Radoslav Dimitrov", email = "radddi@abv.bg"},
 ]
 dependencies = [
+	"flask",
+	"markdown",
 ]
 
 [project.optional-dependencies]
@@ -23,6 +25,7 @@ optional_dependency_name = [
 homepage = "http://example.com"
 
 [project.scripts]
+dumb_home = "dumb_home.main:main"
 
 [project.gui-scripts]
 
