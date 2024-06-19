@@ -3,6 +3,7 @@ body {
 	font-size: 14px;
 	line-height: 1.25;
 	box-sizing: border-box;
+	margin: 0;
 }
 
 img {
@@ -23,17 +24,17 @@ header {
 }
 
 nav {
-	flex: 1 1 20%;
+	flex: 0 0 20%;
 	position: sticky;
 	top: 0;
 }
 
 article {
-	flex: 0 1 60%;
+	flex: 0 0 60%;
 }
 
 aside {
-	flex: 1 1 20%;
+	flex: 0 0 20%;
 	position: sticky;
 	top: 0;
 }

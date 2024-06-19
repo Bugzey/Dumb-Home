@@ -3,36 +3,16 @@ Dumb home server
 """
 
 from argparse import ArgumentParser
-from dataclasses import dataclass
 from pathlib import Path
-from urllib.parse import quote, unquote
+from urllib.parse import unquote
 
 from flask import Flask, current_app, render_template, send_from_directory
-from typing_extensions import Self
 
 from dumb_home.markdown_maker import MarkdownMaker
+from dumb_home.navigation import Nav
 from dumb_home.yaml_maker import YamlMaker
 
-
 app = Flask(__name__)
-
-
-@dataclass
-class Nav:
-    name: str
-    path: str
-
-    @classmethod
-    def from_path(cls, path: Path, base_path: Path) -> list[Self]:
-        #   Create relative links
-        data = []
-        path = path.parent if path.is_file() else path
-        for item in path.iterdir():
-            if item.suffix not in (".md", ):
-                continue
-            data.append({"name": item.stem, "path": quote(str(item.relative_to(base_path)))})
-
-        return [cls(**item) for item in data]
 
 
 @app.route("/")
@@ -77,6 +57,9 @@ def main():
     parser = make_parser()
     args = parser.parse_args()
     app.config.file = Path(args.file).expanduser()
+    app.root_path = app.config.file.absolute().parent
+    app.static_folder = Path(__file__).parent / "static"
+    app.template_folder = Path(__file__).parent / "templates"
     app.run(debug=args.debug)
 
 
