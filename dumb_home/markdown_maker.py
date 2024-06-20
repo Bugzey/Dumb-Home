@@ -1,50 +1,44 @@
 """
 Class to create web pages out of Markdown files
 """
+from dataclasses import dataclass, field
 
-import markdown
+from markdown import Markdown
 
 from dumb_home.base_maker import BaseMaker
 
 
 EXTENSIONS = [
     "extra",
+    "meta",
+    "toc",
     "markdown_checklist.extension",
 ]
+EXTENSION_KWARGS = {
+    "toc": {
+        "anchorlink": True,
+    },
+}
 
 
+@dataclass
 class MarkdownMaker(BaseMaker):
     """
     Class to create Markdown files from text input
     """
-    @classmethod
-    def _make_body(cls, text: str) -> str:
-        result = markdown.markdown(text, extensions=EXTENSIONS)
-        return result
+    _markdown: Markdown = field(init=False, default=None)
 
-    @classmethod
-    def _make_header(cls) -> str:
-        return ""
+    @staticmethod
+    def _make_markdown():
+        return Markdown(extensions=EXTENSIONS, extension_configs=EXTENSION_KWARGS)
 
-    @classmethod
-    def _make_sidebar(cls) -> str:
-        return ""
+    def make_body(self) -> str:
+        if not self._markdown:
+            self._markdown = self._make_markdown()
+        return self._markdown.convert(self.content)
 
-    @classmethod
-    def _make_footer(cls) -> str:
-        return ""
-
-    @classmethod
-    def _apply_template(cls, header: str, sidebar: str, body: str, footer: str) -> str:
-        result = f"{header}{sidebar}{body}{footer}"
-        return result
-
-    @classmethod
-    def make_page(cls, text: str) -> str:
-        header = cls._make_header()
-        sidebar = cls._make_sidebar()
-        body = cls._make_body(text)
-        footer = cls._make_footer()
-
-        result = cls._apply_template(header, sidebar, body, footer)
-        return result
+    def make_sidebar(self) -> str:
+        if not self._markdown:
+            self._markdown = self._make_markdown()
+            _ = self._markdown.convert(self.content)
+        return self._markdown.toc

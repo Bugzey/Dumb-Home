@@ -25,16 +25,24 @@ def index(path: str = None):
 
     with open(cur_path, "r") as cur_file:
         if extension == ".md":
-            content = MarkdownMaker.make_page(cur_file.read())
+            maker = MarkdownMaker(cur_file.read())
         elif extension in (".yaml", ".yml"):
-            content = YamlMaker.make_page(cur_file.read())
+            maker = YamlMaker(cur_file.read())
         else:
             #   Just return the file
             return send_from_directory(base_path, path)
 
+    content = maker.make_body()
+    sidebar = maker.make_sidebar()
     nav = Nav.from_path(path=cur_path, base_path=base_path)
 
-    return render_template("page.html", content=content, nav=nav, title=cur_path.stem)
+    return render_template(
+        "page.html",
+        content=content,
+        nav=nav,
+        title=cur_path.stem,
+        sidebar=sidebar,
+    )
 
 
 def make_parser() -> ArgumentParser:

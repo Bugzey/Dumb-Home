@@ -3,25 +3,17 @@ Abstract base class for the Maker class
 """
 
 from abc import ABC, abstractmethod
+from dataclasses import dataclass
 
 
+@dataclass
 class BaseMaker(ABC):
-    @classmethod
+    content: str
+
     @abstractmethod
-    def _make_header(cls) -> str:
+    def make_body(self) -> str:
         pass
 
-    @classmethod
     @abstractmethod
-    def _make_body(cls) -> str:
-        pass
-
-    @classmethod
-    @abstractmethod
-    def _make_sidebar(cls) -> str:
-        pass
-
-    @classmethod
-    @abstractmethod
-    def _make_footer(cls) -> str:
+    def make_sidebar(self) -> str:
         pass

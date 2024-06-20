@@ -37,4 +37,27 @@ aside {
 	flex: 0 0 20%;
 	position: sticky;
 	top: 0;
+	overflow: scroll;
+	height: 100vh;  /* Allows scrolling overflow https://uxdesign.cc/position-stuck-96c9f55d9526 */
+}
+
+.toclink {
+	color: inherit;
+	text-decoration: none;
+}
+
+.toclink:hover {
+	text-decoration: underline;
+}
+
+/*	Table of contents and nav	*/
+div.toc > ul,
+nav > ul {
+	padding: 0;
+	margin: 0;
+	list-style-type: none;
+}
+
+div.toc ul ul {
+	padding-left: 1rem;
 }
