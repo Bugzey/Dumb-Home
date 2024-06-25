@@ -23,6 +23,17 @@ def index(path: str = None):
     cur_path = (base_path / unquote(path)) if path else base_file
     extension = cur_path.suffix.casefold()
 
+    if cur_path.is_dir():
+        nav = Nav.from_path(
+            path=cur_path,
+            base_path=base_path,
+        )
+        return render_template(
+            "folder.html",
+            title=cur_path.name,
+            nav=nav,
+        )
+
     with open(cur_path, "r") as cur_file:
         if extension == ".md":
             maker = MarkdownMaker(cur_file.read())
@@ -34,7 +45,10 @@ def index(path: str = None):
 
     content = maker.make_body()
     sidebar = maker.make_sidebar()
-    nav = Nav.from_path(path=cur_path, base_path=base_path)
+    nav = Nav.from_path(
+        path=cur_path.parent if cur_path.is_file() else cur_path,
+        base_path=base_path,
+    )
 
     return render_template(
         "page.html",

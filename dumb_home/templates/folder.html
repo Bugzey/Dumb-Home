@@ -4,7 +4,7 @@
 {{ title }}
 {% endblock %}
 
-{% block nav %}
+{% set _nav %}
 <ul>
 	<li>Location
 		<ul>
@@ -28,12 +28,13 @@
 		</ul>
 	</li>
 </ul>
+{% endset %}
+
+{% block nav %}
+{{ _nav }}
 {% endblock %}
 
 {% block content %}
-{{ content | safe }}
-{% endblock %}
-
-{% block sidebar %}
-{{ sidebar | safe }}
+<h1>{{ title }}</h1>
+{{ _nav }}
 {% endblock %}
