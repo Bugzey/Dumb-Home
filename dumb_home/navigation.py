@@ -25,7 +25,7 @@ class NavItem:
     def from_path(cls, path: Path, base_path: Path) -> Self:
         return cls(
             name=path.stem,
-            path=quote(str(path.relative_to(base_path))),
+            path=quote(str(Path("/") / path.relative_to(base_path))),
             is_dir=path.is_dir(),
             is_open=path.is_relative_to(base_path),
         )
@@ -80,12 +80,13 @@ class Nav:
         nav = cls()
 
         #   Create parents
-        nav.location.append(NavItem.from_path(base_path, base_path))
-        for item in (path.parents):
+        for item in (path, *path.parents):
             if not item.is_relative_to(base_path):
                 break
 
             nav.location.append(NavItem.from_path(item, base_path))
+
+        nav.location.reverse()
 
         #   Create items
         for item in path.iterdir():

@@ -6,22 +6,34 @@ from argparse import ArgumentParser
 from pathlib import Path
 from urllib.parse import unquote
 
-from flask import Flask, current_app, render_template, send_from_directory
+from flask import Flask, current_app, render_template, send_from_directory, abort
 
 from dumb_home.markdown_maker import MarkdownMaker
 from dumb_home.navigation import Nav
 from dumb_home.yaml_maker import YamlMaker
 
-app = Flask(__name__)
+PACKAGE_DIR = Path(__file__).parent
+STATIC_DIR = PACKAGE_DIR / "static"
+TEMPLATE_DIR = PACKAGE_DIR / "templates"
+
+app = Flask(
+    __name__,
+    static_folder=STATIC_DIR,
+    template_folder=TEMPLATE_DIR,
+)
 
 
 @app.route("/")
 @app.route("/<path:path>")
 def index(path: str = None):
     base_file = Path(current_app.config.file)
-    base_path = base_file.parent
+    base_path = Path(current_app.config.root_path)
     cur_path = (base_path / unquote(path)) if path else base_file
+    cur_path = cur_path.absolute()
     extension = cur_path.suffix.casefold()
+
+    if not cur_path.exists():
+        abort(404)
 
     if cur_path.is_dir():
         nav = Nav.from_path(
@@ -79,9 +91,7 @@ def main():
     parser = make_parser()
     args = parser.parse_args()
     app.config.file = Path(args.file).expanduser()
-    app.root_path = app.config.file.absolute().parent
-    app.static_folder = Path(__file__).parent / "static"
-    app.template_folder = Path(__file__).parent / "templates"
+    app.config.root_path = app.config.file.absolute().parent
     app.run(debug=args.debug)
 
 

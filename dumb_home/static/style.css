@@ -2,8 +2,12 @@ body {
 	font-family: Ubuntu, sans-serif;
 	font-size: 14px;
 	line-height: 1.25;
-	box-sizing: border-box;
 	margin: 0;
+	width: 100%;
+}
+
+*, *::before, *::after {
+	bod-sizing: border-box;
 }
 
 img {
