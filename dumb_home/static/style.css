@@ -2,49 +2,62 @@ body {
 	font-family: Ubuntu, sans-serif;
 	font-size: 14px;
 	line-height: 1.25;
-	margin: 0;
-	width: 100%;
+	max-width: 75rem;
+	display: flex;
+	flex-direction: column;
+	margin: auto;
+	min-height: 100vh;
+	height: 100%;
 }
 
 *, *::before, *::after {
-	bod-sizing: border-box;
+	box-sizing: border-box;
 }
 
 img {
 	max-width: 100%;
 }
 
+header {
+}
+
+footer {
+}
+
 main {
-	margin: auto;
-	max-width: 75rem;
+	flex: 1 0 auto;
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
-	align-items: flex-start;
-}
-
-header {
-	flex: 1 0 100%;
-}
-
-nav {
-	flex: 0 0 20%;
-	position: sticky;
-	top: 0;
-	height: 100vh;  /* Allows scrolling overflow https://uxdesign.cc/position-stuck-96c9f55d9526 */
+	align-items: flex-start;  /* required for enabling flex elements	*/
 }
 
 article {
 	flex: 0 0 60%;
+	overflow-y: auto;
+	min-height: 0;
 }
 
-aside {
-	flex: 0 0 20%;
+nav
+, aside{
 	position: sticky;
 	top: 0;
-	overflow: scroll;
-	height: 100vh;  /* Allows scrolling overflow https://uxdesign.cc/position-stuck-96c9f55d9526 */
+	max-height: 100vh;
+	flex: 0 0 20%;
+	display: flex;
+	flex-direction: column;
+	min-height: 0;
 }
+
+.nav
+, .toc {
+	flex: 1;
+	overflow-y: auto;
+	min-height: 0;
+}
+
+
+/*	Table of Contents Elements	*/
 
 .toclink {
 	color: inherit;
@@ -55,14 +68,15 @@ aside {
 	text-decoration: underline;
 }
 
-/*	Table of contents and nav	*/
-div.toc > ul,
+.toc > ul,
+.nav > ul,
 nav > ul {
 	padding: 0;
 	margin: 0;
 	list-style-type: none;
 }
 
-div.toc ul ul {
+.toc ul ul
+, .nav ul ul {
 	padding-left: 1rem;
-}
+

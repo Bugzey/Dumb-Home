@@ -4,37 +4,15 @@
 {{ title }}
 {% endblock %}
 
-{% set _nav %}
-<ul>
-	<li>Location
-		<ul>
-		{% for item in nav.location %}
-		<li><a href={{ item.path }}>{{ item.name }}</a></li>
-		{% endfor %}
-		</ul>
-	</li>
-	<li>Files
-		<ul>
-		{% for item in nav.files %}
-		<li><a href={{ item.path }}>{{ item.name }}</a></li>
-		{% endfor %}
-		</ul>
-	</li>
-	<li>Folders
-		<ul>
-		{% for item in nav.folders %}
-		<li><a href={{ item.path }}>{{ item.name }}</a></li>
-		{% endfor %}
-		</ul>
-	</li>
-</ul>
-{% endset %}
-
-{% block nav %}
-{{ _nav }}
-{% endblock %}
-
-{% block content %}
-<h1>{{ title }}</h1>
-{{ _nav }}
+{% block template %}
+<nav>
+	<h2>Navigation</h2>
+	{% include "partial/nav.html" %}
+</nav>
+<article>
+	<h1>{{ title }}</h1>
+	{% include "partial/nav.html" %}
+</article>
+<aside>
+</aside>
 {% endblock %}

@@ -1,0 +1,31 @@
+<div class="nav">
+	<ul>
+		{% if nav.location %}
+		<li>Location
+			<ul>
+			{% for item in nav.location %}
+			<li><a href={{ item.path }}>{{ item.name }}</a></li>
+			{% endfor %}
+			</ul>
+		</li>
+		{% endif %}
+		{% if nav.files %}
+		<li>Files
+			<ul>
+			{% for item in nav.files %}
+			<li><a href={{ item.path }}>{{ item.name }}</a></li>
+			{% endfor %}
+			</ul>
+		</li>
+		{% endif %}
+		{% if nav.folders %}
+		<li>Folders
+			<ul>
+			{% for item in nav.folders %}
+			<li><a href={{ item.path }}>{{ item.name }}</a></li>
+			{% endfor %}
+			</ul>
+		</li>
+		{% endif %}
+	</ul>
+</div>

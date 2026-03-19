@@ -56,7 +56,10 @@ class Nav:
 
     @classmethod
     def check_file(cls, path: Path) -> bool:
-        return (path.suffix in cls.extensions)
+        return (
+            path.suffix in cls.extensions
+            and not path.name.startswith(".")  # ignore hidden files
+        )
 
     @classmethod
     def check_path(cls, path: Path) -> bool:
@@ -80,8 +83,13 @@ class Nav:
         nav = cls()
 
         #   Create parents
+        if path.is_file():
+            path = path.parent
+
         for item in (path, *path.parents):
             if not item.is_relative_to(base_path):
+                break
+            if item.name.startswith("."):  # ignore hidden folders
                 break
 
             nav.location.append(NavItem.from_path(item, base_path))

@@ -32,7 +32,7 @@ def index(path: str = None):
     cur_path = cur_path.absolute()
     extension = cur_path.suffix.casefold()
 
-    if not cur_path.exists():
+    if not cur_path.exists() or cur_path.name.startswith("."):
         abort(404)
 
     if cur_path.is_dir():
@@ -58,7 +58,7 @@ def index(path: str = None):
     content = maker.make_body()
     sidebar = maker.make_sidebar()
     nav = Nav.from_path(
-        path=cur_path.parent if cur_path.is_file() else cur_path,
+        path=cur_path,
         base_path=base_path,
     )
 
@@ -71,13 +71,21 @@ def index(path: str = None):
     )
 
 
+@app.errorhandler(404)
+def not_found(error):
+    nav = Nav.from_path(
+        path=app.config.root_path,
+        base_path=app.config.root_path,
+    )
+    return render_template("404.html", nav=nav), 404
+
+
 def make_parser() -> ArgumentParser:
     parser = ArgumentParser(prog="dumb_home")
     parser.add_argument(
-        "-f",
-        "--file",
-        required=True,
-        help="File to serve as a landing page and whose parent directory is sourced for pages",
+        "target",
+        help="Path or file as a root directory",
+        type=lambda x: Path(x).expanduser().absolute(),
     )
     parser.add_argument(
         "-d",
@@ -90,8 +98,19 @@ def make_parser() -> ArgumentParser:
 def main():
     parser = make_parser()
     args = parser.parse_args()
-    app.config.file = Path(args.file).expanduser()
-    app.config.root_path = app.config.file.absolute().parent
+
+    if not args.target.exists():
+        raise ValueError(f"Given target {args.target} does not exist")
+
+    if args.target.is_dir():
+        app.config.root_path = args.target
+        app.config.file = args.target
+    elif args.target.is_file():
+        app.config.file = args.target
+        app.config.root_path = args.target.parent
+    else:
+        raise ValueError("Invalid target - expected file or directory")
+
     app.run(debug=args.debug)
 
 

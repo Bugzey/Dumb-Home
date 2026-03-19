@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-{{ title }}
+404 - Not Found
 {% endblock %}
 
 {% block template %}
@@ -11,12 +11,9 @@
 </nav>
 
 <article>
-	{{ content | safe }}
+	<h1>404 - Not Found</h1>
+	<p>The requested URL was not found on the server. If you entered the URL manually please check
+	your spelling and try again.</p>
 </article>
-
-<aside>
-	<h2>Table of contents</h2>
-	{{ sidebar | safe }}
-</aside>
 
 {% endblock %}
