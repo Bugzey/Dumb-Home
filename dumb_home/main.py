@@ -39,11 +39,13 @@ def index(path: str = None):
         nav = Nav.from_path(
             path=cur_path,
             base_path=base_path,
+            base_name=app.config.name,
         )
         return render_template(
             "folder.html",
             title=cur_path.name,
             nav=nav,
+            name=app.config.name,
         )
 
     with open(cur_path, "r") as cur_file:
@@ -60,14 +62,16 @@ def index(path: str = None):
     nav = Nav.from_path(
         path=cur_path,
         base_path=base_path,
+        base_name=app.config.name,
     )
 
     return render_template(
         "page.html",
         content=content,
         nav=nav,
-        title=cur_path.stem,
         sidebar=sidebar,
+        title=cur_path.stem,
+        name=app.config.name,
     )
 
 
@@ -76,8 +80,9 @@ def not_found(error):
     nav = Nav.from_path(
         path=app.config.root_path,
         base_path=app.config.root_path,
+        base_name=app.config.name,
     )
-    return render_template("404.html", nav=nav), 404
+    return render_template("404.html", nav=nav, name=app.config.name), 404
 
 
 def make_parser() -> ArgumentParser:
@@ -87,6 +92,7 @@ def make_parser() -> ArgumentParser:
         help="Path or file as a root directory",
         type=lambda x: Path(x).expanduser().absolute(),
     )
+    parser.add_argument("-n", "--name", help="Site name")
     parser.add_argument(
         "-d",
         "--debug",
@@ -111,6 +117,7 @@ def main():
     else:
         raise ValueError("Invalid target - expected file or directory")
 
+    app.config.name = args.name or app.config.root_path.name
     app.run(debug=args.debug)
 
 

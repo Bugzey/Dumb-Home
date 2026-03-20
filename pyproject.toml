@@ -15,7 +15,7 @@ authors = [
 dependencies = [
 	"flask",
 	"markdown",
-	"markdown-checklist",
+	"pymdown-extensions",
 ]
 
 [project.optional-dependencies]

@@ -22,9 +22,9 @@ class NavItem:
     is_open: bool
 
     @classmethod
-    def from_path(cls, path: Path, base_path: Path) -> Self:
+    def from_path(cls, path: Path, base_path: Path, name_override: str | None = None) -> Self:
         return cls(
-            name=path.stem,
+            name=name_override or path.stem,
             path=quote(str(Path("/") / path.relative_to(base_path))),
             is_dir=path.is_dir(),
             is_open=path.is_relative_to(base_path),
@@ -79,7 +79,7 @@ class Nav:
         return False
 
     @classmethod
-    def from_path(cls, path: Path, base_path: Path) -> Self:
+    def from_path(cls, path: Path, base_path: Path, base_name: str | None = None) -> Self:
         nav = cls()
 
         #   Create parents
@@ -92,7 +92,13 @@ class Nav:
             if item.name.startswith("."):  # ignore hidden folders
                 break
 
-            nav.location.append(NavItem.from_path(item, base_path))
+            nav.location.append(
+                NavItem.from_path(
+                    item,
+                    base_path,
+                    name_override=base_name if item == base_path else None,
+                )
+            )
 
         nav.location.reverse()
 

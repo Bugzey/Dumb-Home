@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-	<title>{% block title %}{% endblock %} - Dumb Home</title>
+	<title>{% block title %}{% endblock %} - {{ name }} - Dumb Home</title>
 	<link rel="stylesheet" href={{ url_for('static', filename='fonts.css') }}>
 	<link rel="stylesheet" href={{ url_for('static', filename='style.css') }}>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +8,7 @@
 
 <body>
 	<header>
-		<h1>Dumb home</h1>
+		<h1><a class="toclink" href="{{ url_for("index") }}">{{ name }} - Dumb Home</a></h1>
 	</header>
 
 	<main>

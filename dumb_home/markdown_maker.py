@@ -9,10 +9,11 @@ from dumb_home.base_maker import BaseMaker
 
 
 EXTENSIONS = [
+    "admonition",
     "extra",
     "meta",
     "toc",
-    "markdown_checklist.extension",
+    "pymdownx.tasklist",
 ]
 EXTENSION_KWARGS = {
     "toc": {
