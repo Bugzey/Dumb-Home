@@ -23,25 +23,25 @@ img {
 	max-width: 100%;
 }
 
-header {
-}
-
-footer {
+header
+, footer {
+	padding: 0 1rem;
 }
 
 main {
 	flex: 1 0 auto;
 	display: flex;
 	flex-direction: row;
-	flex-wrap: wrap;
-	align-items: flex-start;  /* required for enabling flex elements	*/
+	flex-wrap: nowrap;
+	align-items: flex-start;  /* required for enabling sticky elements	*/
+	justify-content: center;
+	gap: 1rem;
 }
 
 article {
 	flex: 0 1 60%;
 	overflow-y: auto;
 	min-height: 0;
-	padding: 0 1rem;
 }
 
 nav
@@ -53,6 +53,7 @@ nav
 	display: flex;
 	flex-direction: column;
 	min-height: 0;
+	padding: 0 1rem;
 }
 
 .nav
@@ -101,6 +102,7 @@ blockquote
 	border-radius: 0.5rem;
 	margin: 1rem 0;
 	border: 0.1rem solid lightblue;
+	overflow: scroll;
 }
 
 pre
@@ -120,4 +122,42 @@ pre code {
 
 .admonition-title {
 	font-weight: bold;
+}
+
+@media screen and (max-width: 75rem) {
+	/*	Width less than 75rem and article shrinks	*/
+	body {
+	}
+}
+
+@media
+	screen and (orientation: portrait)
+	, screen and (max-width: 50rem)
+{
+	/*	Narrow view - everything lies in one column	*/
+	body {
+	}
+
+	main {
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	nav
+	, aside {
+		position: relative;
+	}
+
+	aside {
+		order: -10;
+	}
+
+	nav {
+		order: -99;
+	}
+
+	article {
+		order: 99;
+		padding: 0 1rem;
+	}
 }
