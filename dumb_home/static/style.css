@@ -19,10 +19,6 @@ body {
 	box-sizing: border-box;
 }
 
-img {
-	max-width: 100%;
-}
-
 header
 , footer {
 	padding: 0 1rem;
@@ -61,6 +57,16 @@ nav
 	flex: 1;
 	overflow-y: auto;
 	min-height: 0;
+}
+
+/* 	General elements	*/
+img {
+	max-width: 100%;
+}
+
+ul
+, ol {
+	padding-left: 2rem;
 }
 
 /*	Table of Contents Elements	*/
@@ -122,6 +128,11 @@ pre code {
 
 .admonition-title {
 	font-weight: bold;
+}
+
+.twemoji {
+	width: 1.125rem;
+	vertical-align: text-bottom;
 }
 
 @media screen and (max-width: 75rem) {

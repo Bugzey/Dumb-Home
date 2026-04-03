@@ -4,6 +4,7 @@ Class to create web pages out of Markdown files
 from dataclasses import dataclass, field
 
 from markdown import Markdown
+from pymdownx import emoji
 
 from dumb_home.base_maker import BaseMaker
 
@@ -13,12 +14,16 @@ EXTENSIONS = [
     "extra",
     "meta",
     "toc",
+    "pymdownx.emoji",
     "pymdownx.tasklist",
 ]
 EXTENSION_KWARGS = {
     "toc": {
         "anchorlink": True,
     },
+    "pymdownx.emoji": {
+        "emoji_index": emoji.twemoji,
+    }
 }
 
 
